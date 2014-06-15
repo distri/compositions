@@ -1,9 +1,9 @@
-Compositions
-============
+Model
+=====
 
-The `compositions` module provides helper methods to compose nested data models.
+The `Model` module provides helper methods to compose nested data models.
 
-Compositions uses [Observable](/observable/docs) to keep the internal data in sync.
+Models uses [Observable](/observable/docs) to keep the internal data in sync.
 
     Core = require "core"
     Observable = require "observable"
