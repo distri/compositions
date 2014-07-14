@@ -1,4 +1,4 @@
-version: "0.1.2"
+version: "0.1.3"
 dependencies:
   core: "distri/core:v0.6.0"
-  observable: "distri/observable:v0.2.0-pre.1"
+  observable: "distri/observable:v0.3.1"
