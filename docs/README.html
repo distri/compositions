@@ -18,10 +18,10 @@
               <div class="pilwrap">
                 <a class="pilcrow" href="#section-1">&#182;</a>
               </div>
-              <h1 id="compositions">Compositions</h1>
+              <h1 id="model">Model</h1>
 
             </div>
-            <div class="content"><pre><code class="lang-coffeescript">
+            <div class="content"><pre><code>
 </code></pre>
 </div>
         </li>
@@ -32,110 +32,12 @@
               <div class="pilwrap">
                 <a class="pilcrow" href="#section-2">&#182;</a>
               </div>
-              <p>The <code>compositions</code> module provides helper methods to compose nested data models.</p>
-<p>Compositions uses <a href="/observable/docs">Observable</a> to keep the internal data in sync.</p>
+              <p>The <code>Model</code> module provides helper methods to compose nested data models.</p>
+<p>Models uses <a href="/observable/docs">Observable</a> to keep the internal data in sync.</p>
 
             </div>
-            <div class="content"><pre><code class="lang-coffeescript">Core = require <span class="string">"core"</span>
-Observable = require <span class="string">"observable"</span>
-
-module.<span class="function"><span class="title">exports</span></span> = (I={}, self=Core(I)) -&gt;
-
-  self.extend</code></pre>
-</div>
-        </li>
-        
-        
-        <li id="section-3">
-            <div class="annotation">
-              <div class="pilwrap">
-                <a class="pilcrow" href="#section-3">&#182;</a>
-              </div>
-              <p>Observe any number of attributes as simple observables. For each attribute name passed in we expose a public getter/setter method and listen to changes when the value is set.</p>
-
-            </div>
-            <div class="content"><pre><code class="lang-coffeescript">    attrObservable: (names...) -&gt;
-      names.forEach (name) -&gt;
-        self[name] = Observable(I[name])
-
-        self[name].observe (newValue) -&gt;
-          I[name] = newValue
-
-      <span class="keyword">return</span> self</code></pre>
-</div>
-        </li>
-        
-        
-        <li id="section-4">
-            <div class="annotation">
-              <div class="pilwrap">
-                <a class="pilcrow" href="#section-4">&#182;</a>
-              </div>
-              <p>Observe an attribute as a model. Treats the attribute given as an Observable
-model instance exposting a getter/setter method of the same name. The Model
-constructor must be passed in explicitly.</p>
-
-            </div>
-            <div class="content"><pre><code class="lang-coffeescript">    attrModel: (name, Model) -&gt;
-      model = Model(I[name])
-
-      self[name] = Observable(model)
-
-      self[name].observe (newValue) -&gt;
-        I[name] = newValue.I
-
-      <span class="keyword">return</span> self</code></pre>
-</div>
-        </li>
-        
-        
-        <li id="section-5">
-            <div class="annotation">
-              <div class="pilwrap">
-                <a class="pilcrow" href="#section-5">&#182;</a>
-              </div>
-              <p>Observe an attribute as a list of sub-models. This is the same as <code>attrModel</code>
-except the attribute is expected to be an array of models rather than a single one.</p>
-
-            </div>
-            <div class="content"><pre><code class="lang-coffeescript">    attrModels: (name, Model) -&gt;
-      <span class="function"><span class="title">models</span></span> = (I[name] <span class="keyword">or</span> []).map (x) -&gt;
-        Model(x)
-
-      self[name] = Observable(models)
-
-      self[name].observe (newValue) -&gt;
-        I[name] = newValue.map (instance) -&gt;
-          instance.I
-
-      <span class="keyword">return</span> self</code></pre>
-</div>
-        </li>
-        
-        
-        <li id="section-6">
-            <div class="annotation">
-              <div class="pilwrap">
-                <a class="pilcrow" href="#section-6">&#182;</a>
-              </div>
-              <p>The JSON representation is kept up to date via the observable properites and resides in <code>I</code>.</p>
-
-            </div>
-            <div class="content"><pre><code class="lang-coffeescript">    toJSON: -&gt;
-      I</code></pre>
-</div>
-        </li>
-        
-        
-        <li id="section-7">
-            <div class="annotation">
-              <div class="pilwrap">
-                <a class="pilcrow" href="#section-7">&#182;</a>
-              </div>
-              <p>Return our public object.</p>
-
-            </div>
-            <div class="content"><pre><code class="lang-coffeescript">  <span class="keyword">return</span> self</code></pre>
+            <div class="content"><pre><code>
+</code></pre>
 </div>
         </li>
         
