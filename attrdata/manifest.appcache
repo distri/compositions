@@ -1,0 +1,12 @@
+CACHE MANIFEST
+# 1420993285124
+
+CACHE:
+index.html
+../attrdata.json.js
+
+
+NETWORK:
+https://*
+http://*
+*
