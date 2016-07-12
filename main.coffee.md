@@ -8,7 +8,7 @@ Models uses [Observable](/observable/docs) to keep the internal data in sync.
     Core = require "./core"
     Observable = global.Observable ? require "observable"
 
-    module.exports = (I={}, self=Core(I)) ->
+    module.exports = Model = (I={}, self=Core(I)) ->
 
       self.extend
 
@@ -60,3 +60,5 @@ The JSON representation is kept up to date via the observable properites and res
 Return our public object.
 
       return self
+
+    Model.Core = Core
