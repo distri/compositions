@@ -62,3 +62,4 @@ Return our public object.
       return self
 
     Model.Core = Core
+    Model.Observable = Observable
