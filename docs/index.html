@@ -35,7 +35,7 @@
   <div class="content"><pre><code class="lang-coffeescript">Core = require <span class="string">"./core"</span>
 Observable = global.Observable ? require <span class="string">"observable"</span>
 
-module.<span class="function"><span class="title">exports</span></span> = (I={}, self=Core(I)) -&gt;
+module.exports = <span class="function"><span class="title">Model</span></span> = (I={}, self=Core(I)) -&gt;
 
   self.extend</code></pre>
 </div>
@@ -121,7 +121,9 @@ except the attribute is expected to be an array of models rather than a single o
     <p>Return our public object.</p>
 
   </div>
-  <div class="content"><pre><code class="lang-coffeescript">  <span class="keyword">return</span> self</code></pre>
+  <div class="content"><pre><code class="lang-coffeescript">  <span class="keyword">return</span> self
+
+Model.Core = Core</code></pre>
 </div>
 </li>
     </ul>
