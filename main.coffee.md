@@ -5,8 +5,8 @@ The `Model` module provides helper methods to compose nested data models.
 
 Models uses [Observable](/observable/docs) to keep the internal data in sync.
 
-    Core = require "core"
-    Observable = require "observable"
+    Core = require "./core"
+    Observable = global.Observable ? require "observable"
 
     module.exports = (I={}, self=Core(I)) ->
 
