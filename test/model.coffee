@@ -166,3 +166,11 @@ describe 'Model', ->
       assert.equal model.yolo(), "4life"
 
     it "should camel case underscored names"
+
+  describe ".defaults", ->
+    it "should expose defaults method", ->
+      assert Model.defaults
+
+  describe ".extend", ->
+    it "should expose extend method", ->
+      assert Model.extend

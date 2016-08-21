@@ -61,5 +61,5 @@ Return our public object.
 
       return self
 
-    Model.Core = Core
-    Model.Observable = Observable
+    {defaults, extend} = require "./util"
+    extend Model, {Core, Observable, defaults, extend}
