@@ -1,0 +1,12 @@
+CACHE MANIFEST
+# 1471815611534
+
+CACHE:
+index.html
+../v0.2.0-pre.3.json
+
+
+NETWORK:
+https://*
+http://*
+*
