@@ -166,41 +166,15 @@ myObject.bind &quot;someEvent&quot;, -&gt;
 
       <span class="keyword">return</span> self
 
-  <span class="keyword">return</span> self</code></pre>
+  <span class="keyword">return</span> self
+
+{extend} = require <span class="string">"./util"</span></code></pre>
 </div>
 </li>
 <li id="section-8">
   <div class="annotation">
     <div class="pilwrap">
       <a class="pilcrow" href="#section-8">&#182;</a>
-    </div>
-    <h2 id="helpers">Helpers</h2>
-
-  </div>
-  <div class="content"><pre><code class="lang-coffeescript">
-</code></pre>
-</div>
-</li>
-<li id="section-9">
-  <div class="annotation">
-    <div class="pilwrap">
-      <a class="pilcrow" href="#section-9">&#182;</a>
-    </div>
-    <p>Extend an object with the properties of other objects.</p>
-
-  </div>
-  <div class="content"><pre><code class="lang-coffeescript"><span class="function"><span class="title">extend</span></span> = (target, sources...) -&gt;
-  <span class="keyword">for</span> source <span class="keyword">in</span> sources
-    <span class="keyword">for</span> name <span class="keyword">of</span> source
-      target[name] = source[name]
-
-  <span class="keyword">return</span> target</code></pre>
-</div>
-</li>
-<li id="section-10">
-  <div class="annotation">
-    <div class="pilwrap">
-      <a class="pilcrow" href="#section-10">&#182;</a>
     </div>
     <p>Export</p>
 

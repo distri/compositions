@@ -123,8 +123,8 @@ except the attribute is expected to be an array of models rather than a single o
   </div>
   <div class="content"><pre><code class="lang-coffeescript">  <span class="keyword">return</span> self
 
-Model.Core = Core
-Model.Observable = Observable</code></pre>
+{defaults, extend} = require <span class="string">"./util"</span>
+extend Model, {Core, Observable, defaults, extend}</code></pre>
 </div>
 </li>
     </ul>
