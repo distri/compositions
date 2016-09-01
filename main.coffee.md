@@ -52,6 +52,38 @@ except the attribute is expected to be an array of models rather than a single o
 
           return self
 
+`attrDatum` models an attribute as a data object. For example if our object has
+a position attribute with x and y values we can do
+
+>     self.attrDatum("position", Point)
+
+to promote the raw data into a Point data model available through a public
+observable named position.
+
+        attrDatum: (name, DataModel) ->
+          I[name] = model = DataModel(I[name])
+
+          self[name] = Observable(model)
+
+          self[name].observe (newValue) ->
+            I[name] = newValue
+
+          return self
+
+`attrData` models an array attribute as an observable array of data objects.
+
+        attrData: (name, DataModel) ->
+          models = (I[name] or []).map (x) ->
+            DataModel(x)
+
+          self[name] = Observable(models)
+
+          self[name].observe (newValue) ->
+            I[name] = newValue.map (x) ->
+              DataModel(x)
+
+          return self
+
 The JSON representation is kept up to date via the observable properites and resides in `I`.
 
         toJSON: ->
