@@ -117,7 +117,18 @@ except the attribute is expected to be an array of models rather than a single o
         I[name] = newValue.map (instance) -&gt;
           instance.I
 
-      <span class="keyword">return</span> self</code></pre>
+      <span class="keyword">return</span> self
+
+    delegate: (names..., {to}) -&gt;
+      names.forEach (name) -&gt;
+        console.log <span class="string">"delegating <span class="subst">#{name}</span> to <span class="subst">#{to}</span>"</span>
+        Object.defineProperty self, name,
+          get: -&gt;
+            receiver = getValue self, to
+            receiver[name]
+          set: (value) -&gt;
+            receiver = getValue self, to
+            setValue receiver, name, value</code></pre>
 </div>
 </li>
 <li id="section-7">
@@ -141,6 +152,23 @@ except the attribute is expected to be an array of models rather than a single o
 
   </div>
   <div class="content"><pre><code class="lang-coffeescript">  <span class="keyword">return</span> self
+
+<span class="function"><span class="title">isFn</span></span> = (x) -&gt;
+  <span class="keyword">typeof</span> x <span class="keyword">is</span> <span class="string">'function'</span>
+
+<span class="function"><span class="title">getValue</span></span> = (receiver, property) -&gt;
+  <span class="keyword">if</span> isFn receiver[property]
+    receiver[property]()
+  <span class="keyword">else</span>
+    receiver[property]
+
+<span class="function"><span class="title">setValue</span></span> = (receiver, property, value) -&gt;
+  target = receiver[property]
+
+  <span class="keyword">if</span> isFn target
+    target.call(receiver, value)
+  <span class="keyword">else</span>
+    receiver[property] = value
 
 {defaults, extend} = require <span class="string">"./util"</span>
 Object.assign Model, {Core, Observable, defaults, extend}</code></pre>
