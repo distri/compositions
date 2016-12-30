@@ -33,7 +33,7 @@ extending <code>Object.prototype</code> directly.</p>
 
   </div>
   <div class="content"><pre><code class="lang-coffeescript"><span class="function"><span class="title">Core</span></span> = (I={}, self={}) -&gt;
-  extend self,</code></pre>
+  Object.assign self,</code></pre>
 </div>
 </li>
 <li id="section-3">
@@ -141,7 +141,7 @@ player.increaseSpeed()</code></pre>
 
   </div>
   <div class="content"><pre><code class="lang-coffeescript">    extend: (objects...) -&gt;
-      extend self, objects...</code></pre>
+      Object.assign self, objects...</code></pre>
 </div>
 </li>
 <li id="section-7">
@@ -166,9 +166,7 @@ myObject.bind &quot;someEvent&quot;, -&gt;
 
       <span class="keyword">return</span> self
 
-  <span class="keyword">return</span> self
-
-{extend} = require <span class="string">"./util"</span></code></pre>
+  <span class="keyword">return</span> self</code></pre>
 </div>
 </li>
 <li id="section-8">
