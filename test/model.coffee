@@ -179,6 +179,62 @@ describe 'Model', ->
       assert.equal model.people().length, 1
       assert.equal model.I.people.length, 1
 
+  describe "#delegate", ->
+    it "should delegate to another method", ->
+      model = Model
+        position:
+          x: 1
+          y: 2
+          z: 3
+
+      model.attrReader "position"
+
+      model.delegate "x", "y", "z", to: "position"
+
+      assert.equal model.x, 1
+      assert.equal model.y, 2
+      assert.equal model.z, 3
+
+      model.x = 5
+
+      assert.equal model.position().x, 5
+      assert.equal model.I.position.x, 5
+
+    it "should delegate to another property", ->
+      model = Model
+        position:
+          x: 1
+          y: 2
+          z: 3
+
+      model.position = model.I.position
+
+      model.delegate "x", "y", "z", to: "position"
+
+      assert.equal model.x, 1
+      assert.equal model.y, 2
+      assert.equal model.z, 3
+
+      model.x = 5
+
+      assert.equal model.position.x, 5
+      assert.equal model.I.position.x, 5
+
+    it "should delegate to methods just fine", ->
+      model = Model
+        size:
+          width: 10
+          height: 20
+
+      model.attrData "size", ({width, height}) ->
+        width: -> width
+        height: -> height
+
+      model.delegate "width", "height", to: "size"
+
+      assert.equal model.width(), 10
+      assert.equal model.height(), 20
+
   describe "#toJSON", ->
     it "should return an object appropriate for JSON serialization", ->
       model = Model

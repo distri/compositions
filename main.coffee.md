@@ -64,6 +64,17 @@ except the attribute is expected to be an array of models rather than a single o
 
           return self
 
+        delegate: (names..., {to}) ->
+          names.forEach (name) ->
+            console.log "delegating #{name} to #{to}"
+            Object.defineProperty self, name,
+              get: ->
+                receiver = getValue self, to
+                receiver[name]
+              set: (value) ->
+                receiver = getValue self, to
+                setValue receiver, name, value
+
 The JSON representation is kept up to date via the observable properites and resides in `I`.
 
         toJSON: ->
@@ -72,6 +83,23 @@ The JSON representation is kept up to date via the observable properites and res
 Return our public object.
 
       return self
+
+    isFn = (x) ->
+      typeof x is 'function'
+
+    getValue = (receiver, property) ->
+      if isFn receiver[property]
+        receiver[property]()
+      else
+        receiver[property]
+
+    setValue = (receiver, property, value) ->
+      target = receiver[property]
+
+      if isFn target
+        target.call(receiver, value)
+      else
+        receiver[property] = value
 
     {defaults, extend} = require "./util"
     Object.assign Model, {Core, Observable, defaults, extend}
