@@ -5,7 +5,7 @@ The Core module is used to add extended functionality to objects without
 extending `Object.prototype` directly.
 
     Core = (I={}, self={}) ->
-      extend self,
+      Object.assign self,
 
 External access to instance variables. Use of this property should be avoided
 in general, but can come in handy from time to time.
@@ -81,7 +81,7 @@ Extends this object with methods from the passed in object. A shortcut for Objec
 >     player.increaseSpeed()
 
         extend: (objects...) ->
-          extend self, objects...
+          Object.assign self, objects...
 
 Includes a module in this object. A module is a constructor that takes two parameters, `I` and `self`
 
@@ -99,8 +99,6 @@ Includes a module in this object. A module is a constructor that takes two param
           return self
 
       return self
-
-    {extend} = require "./util"
 
 Export
 

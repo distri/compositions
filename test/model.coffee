@@ -16,6 +16,39 @@ describe 'Model', ->
 
     return person
 
+  describe "#attrData", ->
+    pointProto =
+      add: ({x, y}) ->
+        @x += x
+        @y += y
+
+    Point = ({x, y}) ->
+      Object.create pointProto,
+        x:
+          value: x
+        y:
+          value: y
+
+    it "should expose a property mapping to the instance data", ->
+      model = Model
+        position:
+          x: 5
+          y: 5
+
+      model.attrData "position", Point
+
+      assert model.position.add
+
+      model.position.x = 12
+      assert.equal model.position.x, model.I.position.x
+
+      model.position =
+        x: 9
+        y: 6
+
+      assert.equal model.position.y, 6
+      assert.equal model.I.position.x, 9
+
   describe "#attrObservable", ->
     it 'should allow for observing of attributes', ->
       model = Model

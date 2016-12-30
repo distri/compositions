@@ -7,9 +7,4 @@ module.exports =
 
     return target
 
-  extend: (target, sources...) ->
-    for source in sources
-      for name of source
-        target[name] = source[name]
-
-    return target
+  extend: Object.assign

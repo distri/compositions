@@ -12,7 +12,19 @@ Models uses [Observable](/observable/docs) to keep the internal data in sync.
 
       self.extend
 
-Observe any number of attributes as simple observables. For each attribute name passed in we expose a public getter/setter method and listen to changes when the value is set.
+Bind a data model getter/setter to an attribute. The data model is bound directly to
+the attribute and must be directly convertible to and from JSON.
+
+        attrData: (name, DataModel) ->
+          I[name] = DataModel(I[name])
+
+          Object.defineProperty self, name,
+            get: ->
+              I[name]
+            set: (value) ->
+              I[name] = DataModel(value)
+
+Observe any number of attributes as observables. For each attribute name passed in we expose a public getter/setter method and listen to changes when the value is set.
 
         attrObservable: (names...) ->
           names.forEach (name) ->
@@ -24,8 +36,8 @@ Observe any number of attributes as simple observables. For each attribute name 
           return self
 
 Observe an attribute as a model. Treats the attribute given as an Observable
-model instance exposting a getter/setter method of the same name. The Model
-constructor must be passed in explicitly.
+model instance exposing a getter/setter method of the same name. The Model
+constructor must be passed explicitly.
 
         attrModel: (name, Model) ->
           model = Model(I[name])
@@ -37,7 +49,7 @@ constructor must be passed in explicitly.
 
           return self
 
-Observe an attribute as a list of sub-models. This is the same as `attrModel`
+Observe an attribute as an array of sub-models. This is the same as `attrModel`
 except the attribute is expected to be an array of models rather than a single one.
 
         attrModels: (name, Model) ->
@@ -62,4 +74,4 @@ Return our public object.
       return self
 
     {defaults, extend} = require "./util"
-    extend Model, {Core, Observable, defaults, extend}
+    Object.assign Model, {Core, Observable, defaults, extend}
