@@ -15,6 +15,69 @@ describe 'Model', ->
       "#{@firstName()} #{@lastName()} #{@suffix()}"
 
     return person
+  
+  it "#extend", ->
+    o = Model()
+
+    o.extend
+      test: "jawsome"
+
+    assert.equal o.test, "jawsome"
+
+  it "#attrAccessor", ->
+    o = Model
+      test: "my_val"
+
+    o.attrAccessor("test")
+
+    assert.equal o.test(), "my_val"
+    assert.equal o.test("new_val"), o
+    assert.equal o.test(), "new_val"
+
+  it "#attrReader", ->
+    o = Model
+      test: "my_val"
+
+    o.attrReader("test")
+
+    assert.equal o.test(), "my_val"
+    assert.equal o.test("new_val"), "my_val"
+    assert.equal o.test(), "my_val"
+
+  it "#include", ->
+    o = Model
+      test: "my_val"
+
+    M = (I, self) ->
+      self.attrReader "test"
+
+      self.extend
+        test2: "cool"
+
+    ret = o.include M
+
+    assert.equal ret, o, "Should return self"
+
+    assert.equal o.test(), "my_val"
+    assert.equal o.test2, "cool"
+
+  it "#include multiple", ->
+    o = Model
+      test: "my_val"
+
+    M = (I, self) ->
+      self.attrReader "test"
+
+      self.extend
+        test2: "cool"
+
+    M2 = (I, self) ->
+      self.extend
+        test2: "coolio"
+
+    o.include M, M2
+
+    assert.equal o.test2, "coolio"
 
   describe "#attrData", ->
     pointProto =
