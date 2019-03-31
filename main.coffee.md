@@ -20,7 +20,7 @@ in general, but can come in handy from time to time.
 >       g: 0
 >       b: 100
 >
->     myObject = Core(I)
+>     myObject = Model(I)
 >
 >     [myObject.I.r, myObject.I.g, myObject.I.b]
 
@@ -29,7 +29,7 @@ in general, but can come in handy from time to time.
 Generates a public jQuery style getter / setter method for each `String` argument.
 
 >     #! example
->     myObject = Core
+>     myObject = Model
 >       r: 255
 >       g: 0
 >       b: 100
@@ -53,7 +53,7 @@ Generates a public jQuery style getter / setter method for each `String` argumen
 Generates a public jQuery style getter method for each String argument.
 
 >     #! example
->     myObject = Core
+>     myObject = Model
 >       r: 255
 >       g: 0
 >       b: 100
@@ -77,8 +77,8 @@ Extends this object with methods from the passed in object. A shortcut for Objec
 >       maxSpeed: 5
 >
 >     # we are using extend to give player
->     # additional methods that Core doesn't have
->     player = Core(I).extend
+>     # additional methods that Model doesn't have
+>     player = Model(I).extend
 >       increaseSpeed: ->
 >         I.maxSpeed += 1
 >
@@ -89,7 +89,7 @@ Extends this object with methods from the passed in object. A shortcut for Objec
 
 Includes a module in this object. A module is a constructor that takes two parameters, `I` and `self`
 
->     myObject = Core()
+>     myObject = Model()
 >     myObject.include(Bindable)
 
 >     # now you can bind handlers to functions
@@ -155,6 +155,8 @@ except the attribute is expected to be an array of models rather than a single o
 
           return self
 
+Delegate methods to another target. Makes it easier to compose rather than extend.
+
         delegate: (names..., {to}) ->
           names.forEach (name) ->
             console.log "delegating #{name} to #{to}"
@@ -174,6 +176,8 @@ The JSON representation is kept up to date via the observable properites and res
 Return our public object.
 
       return self
+
+Helper functions:
 
     isFn = (x) ->
       typeof x is 'function'
