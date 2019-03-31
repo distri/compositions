@@ -32,18 +32,148 @@
 <p>Models uses <a href="/observable/docs">Observable</a> to keep the internal data in sync.</p>
 
   </div>
-  <div class="content"><pre><code class="lang-coffeescript">Core = require <span class="string">"./core"</span>
-Observable = global.Observable ? require <span class="string">"observable"</span>
+  <div class="content"><pre><code class="lang-coffeescript">Observable = global.Observable ? require <span class="string">"observable"</span>
 
-module.exports = <span class="function"><span class="title">Model</span></span> = (I={}, self=Core(I)) -&gt;
+module.exports = <span class="function"><span class="title">Model</span></span> = (I={}, self={}) -&gt;
 
-  self.extend</code></pre>
+  Object.assign self,</code></pre>
 </div>
 </li>
 <li id="section-3">
   <div class="annotation">
     <div class="pilwrap">
       <a class="pilcrow" href="#section-3">&#182;</a>
+    </div>
+    <p>External access to instance variables. Use of this property should be avoided
+in general, but can come in handy from time to time.</p>
+<blockquote>
+<pre><code>#! example
+I =
+  r: 255
+  g: 0
+  b: 100
+
+myObject = Core(I)
+
+[myObject.I.r, myObject.I.g, myObject.I.b]</code></pre>
+</blockquote>
+
+  </div>
+  <div class="content"><pre><code class="lang-coffeescript">    I: I</code></pre>
+</div>
+</li>
+<li id="section-4">
+  <div class="annotation">
+    <div class="pilwrap">
+      <a class="pilcrow" href="#section-4">&#182;</a>
+    </div>
+    <p>Generates a public jQuery style getter / setter method for each <code>String</code> argument.</p>
+<blockquote>
+<pre><code>#! example
+myObject = Core
+  r: 255
+  g: 0
+  b: 100
+
+myObject.attrAccessor &quot;r&quot;, &quot;g&quot;, &quot;b&quot;
+
+myObject.r(254)</code></pre>
+</blockquote>
+
+  </div>
+  <div class="content"><pre><code class="lang-coffeescript">    attrAccessor: (attrNames...) -&gt;
+      attrNames.forEach (attrName) -&gt;
+        self[attrName] = (newValue) -&gt;
+          <span class="keyword">if</span> arguments.length &gt; <span class="number">0</span>
+            I[attrName] = newValue
+
+            <span class="keyword">return</span> self
+          <span class="keyword">else</span>
+            I[attrName]
+
+      <span class="keyword">return</span> self</code></pre>
+</div>
+</li>
+<li id="section-5">
+  <div class="annotation">
+    <div class="pilwrap">
+      <a class="pilcrow" href="#section-5">&#182;</a>
+    </div>
+    <p>Generates a public jQuery style getter method for each String argument.</p>
+<blockquote>
+<pre><code>#! example
+myObject = Core
+  r: 255
+  g: 0
+  b: 100
+
+myObject.attrReader &quot;r&quot;, &quot;g&quot;, &quot;b&quot;
+
+[myObject.r(), myObject.g(), myObject.b()]</code></pre>
+</blockquote>
+
+  </div>
+  <div class="content"><pre><code class="lang-coffeescript">    attrReader: (attrNames...) -&gt;
+      attrNames.forEach (attrName) -&gt;
+        self[attrName] = -&gt;
+          I[attrName]
+
+      <span class="keyword">return</span> self</code></pre>
+</div>
+</li>
+<li id="section-6">
+  <div class="annotation">
+    <div class="pilwrap">
+      <a class="pilcrow" href="#section-6">&#182;</a>
+    </div>
+    <p>Extends this object with methods from the passed in object. A shortcut for Object.extend(self, methods)</p>
+<blockquote>
+<pre><code>I =
+  x: 30
+  y: 40
+  maxSpeed: 5
+
+# we are using extend to give player
+# additional methods that Core doesn&#39;t have
+player = Core(I).extend
+  increaseSpeed: -&gt;
+    I.maxSpeed += 1
+
+player.increaseSpeed()</code></pre>
+</blockquote>
+
+  </div>
+  <div class="content"><pre><code class="lang-coffeescript">    extend: (objects...) -&gt;
+      Object.assign self, objects...</code></pre>
+</div>
+</li>
+<li id="section-7">
+  <div class="annotation">
+    <div class="pilwrap">
+      <a class="pilcrow" href="#section-7">&#182;</a>
+    </div>
+    <p>Includes a module in this object. A module is a constructor that takes two parameters, <code>I</code> and <code>self</code></p>
+<blockquote>
+<pre><code>myObject = Core()
+myObject.include(Bindable)
+
+# now you can bind handlers to functions
+myObject.bind &quot;someEvent&quot;, -&gt;
+  alert(&quot;wow. that was easy.&quot;)</code></pre>
+</blockquote>
+
+  </div>
+  <div class="content"><pre><code class="lang-coffeescript">    include: (modules...) -&gt;
+      <span class="keyword">for</span> Module <span class="keyword">in</span> modules
+        Module(I, self)
+
+      <span class="keyword">return</span> self</code></pre>
+</div>
+</li>
+<li id="section-8">
+  <div class="annotation">
+    <div class="pilwrap">
+      <a class="pilcrow" href="#section-8">&#182;</a>
     </div>
     <p>Bind a data model getter/setter to an attribute. The data model is bound directly to
 the attribute and must be directly convertible to and from JSON.</p>
@@ -59,10 +189,10 @@ the attribute and must be directly convertible to and from JSON.</p>
           I[name] = DataModel(value)</code></pre>
 </div>
 </li>
-<li id="section-4">
+<li id="section-9">
   <div class="annotation">
     <div class="pilwrap">
-      <a class="pilcrow" href="#section-4">&#182;</a>
+      <a class="pilcrow" href="#section-9">&#182;</a>
     </div>
     <p>Observe any number of attributes as observables. For each attribute name passed in we expose a public getter/setter method and listen to changes when the value is set.</p>
 
@@ -77,10 +207,10 @@ the attribute and must be directly convertible to and from JSON.</p>
       <span class="keyword">return</span> self</code></pre>
 </div>
 </li>
-<li id="section-5">
+<li id="section-10">
   <div class="annotation">
     <div class="pilwrap">
-      <a class="pilcrow" href="#section-5">&#182;</a>
+      <a class="pilcrow" href="#section-10">&#182;</a>
     </div>
     <p>Observe an attribute as a model. Treats the attribute given as an Observable
 model instance exposing a getter/setter method of the same name. The Model
@@ -98,10 +228,10 @@ constructor must be passed explicitly.</p>
       <span class="keyword">return</span> self</code></pre>
 </div>
 </li>
-<li id="section-6">
+<li id="section-11">
   <div class="annotation">
     <div class="pilwrap">
-      <a class="pilcrow" href="#section-6">&#182;</a>
+      <a class="pilcrow" href="#section-11">&#182;</a>
     </div>
     <p>Observe an attribute as an array of sub-models. This is the same as <code>attrModel</code>
 except the attribute is expected to be an array of models rather than a single one.</p>
@@ -131,10 +261,10 @@ except the attribute is expected to be an array of models rather than a single o
             setValue receiver, name, value</code></pre>
 </div>
 </li>
-<li id="section-7">
+<li id="section-12">
   <div class="annotation">
     <div class="pilwrap">
-      <a class="pilcrow" href="#section-7">&#182;</a>
+      <a class="pilcrow" href="#section-12">&#182;</a>
     </div>
     <p>The JSON representation is kept up to date via the observable properites and resides in <code>I</code>.</p>
 
@@ -143,10 +273,10 @@ except the attribute is expected to be an array of models rather than a single o
       I</code></pre>
 </div>
 </li>
-<li id="section-8">
+<li id="section-13">
   <div class="annotation">
     <div class="pilwrap">
-      <a class="pilcrow" href="#section-8">&#182;</a>
+      <a class="pilcrow" href="#section-13">&#182;</a>
     </div>
     <p>Return our public object.</p>
 
@@ -170,8 +300,17 @@ except the attribute is expected to be an array of models rather than a single o
   <span class="keyword">else</span>
     receiver[property] = value
 
-{defaults, extend} = require <span class="string">"./util"</span>
-Object.assign Model, {Core, Observable, defaults, extend}</code></pre>
+<span class="function"><span class="title">defaults</span></span> = (target, objects...) -&gt;
+  <span class="keyword">for</span> object <span class="keyword">in</span> objects
+    <span class="keyword">for</span> name <span class="keyword">of</span> object
+      <span class="keyword">unless</span> target.hasOwnProperty(name)
+        target[name] = object[name]
+
+  <span class="keyword">return</span> target
+
+extend = Object.assign
+
+Object.assign Model, {Observable, defaults, extend}</code></pre>
 </div>
 </li>
     </ul>
